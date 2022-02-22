@@ -26,13 +26,9 @@ void set_nvs_value(char *key, char *value) {
         return;
     }
 
-    ESP_LOGI(TAG_UCONFIG, "[nvs] storing value '%s' for '%s'", value, key);
-
     nvs_error = nvs_set_str(app_nvs_handle, key, value);
     if (nvs_error != ESP_OK) {
         ESP_LOGE(TAG_UCONFIG, "Failed to write into NVS store!");
-    } else {
-        ESP_LOGI(TAG_UCONFIG, "Done writing into NVS store");
     }
 
     if (nvs_error != ESP_OK) {
@@ -42,10 +38,7 @@ void set_nvs_value(char *key, char *value) {
     nvs_error = nvs_commit(app_nvs_handle);
     if (nvs_error != ESP_OK) {
         ESP_LOGE(TAG_UCONFIG, "Failed to commit NVS store changes!");
-    } else {
-        ESP_LOGI(TAG_UCONFIG, "NVS commit done");
     }
-
 }
 
 char *get_nvs_value(char *key) {
@@ -59,8 +52,6 @@ char *get_nvs_value(char *key) {
     nvs_error = nvs_get_str(app_nvs_handle, key, buf, &buf_len);
     switch (nvs_error) {
         case ESP_OK:
-            // possible memory leak here, as we do not free up *p - although these values would not consume too
-            // much memory space, it can be a problem if get_nvs_value is called too often.
             p = malloc( sizeof(char) * ( buf_len + 1 ) );
             strcpy(p, buf);
             return p;

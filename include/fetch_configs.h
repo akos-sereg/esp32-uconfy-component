@@ -16,13 +16,9 @@
 #include "lwip/dns.h"
 
 #include "networking.h"
-// #include "config_repo.h"
 #include "nvs.h"
-// #include "base64.h"
 
 extern char response_payload[1024];
-
 extern void uconfy_fetch_configs();
-
 
 #endif
