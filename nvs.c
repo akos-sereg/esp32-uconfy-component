@@ -66,7 +66,7 @@ char *get_nvs_value(char *key) {
     return NULL;
 }
 
-void uconfig_load_from_nvs() {
+void uconfy_load_from_nvs() {
     init_nvs_store();
 
     if (uconfig_repo == NULL) {

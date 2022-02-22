@@ -41,11 +41,6 @@ void uconfig_parse_http_response() {
         line[char_index] = response_payload[i];
         char_index++;
     }
-
-    if (!uconfig_success_callback_called) {
-        uconfig_success_callback();
-        uconfig_success_callback_called = 1;
-    }
 }
 
 void uconfig_register_config_item(char *line) {

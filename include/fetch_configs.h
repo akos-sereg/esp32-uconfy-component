@@ -19,6 +19,6 @@
 #include "nvs.h"
 
 extern char response_payload[1024];
-extern void uconfy_fetch_configs();
+extern void uconfy_fetch_configs(void (*configs_fetched_callback)());
 
 #endif

@@ -9,7 +9,7 @@
 #include "nvs_flash.h"
 #include "nvs.h"
 
-extern void uconfig_load_from_nvs();
+extern void uconfy_load_from_nvs();
 extern void init_nvs_store();
 extern void set_nvs_value(char *key, char *value);
 extern char *get_nvs_value(char *key);

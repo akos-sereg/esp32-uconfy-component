@@ -25,6 +25,6 @@ extern EventGroupHandle_t wifi_event_group;
 extern int UCONFIG_CONNECTED_BIT;
 
 extern int UCONFIG_IS_WIFI_CONNECTED;
-extern void uconfig_initialize_wifi(char *initial_wifi_ssid, char *initial_wifi_password);
+extern void uconfy_initialize_wifi(char *initial_wifi_ssid, char *initial_wifi_password, void (*wifi_connected_callback)());
 
 #endif

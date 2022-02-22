@@ -3,6 +3,7 @@
 int UCONFIG_CONNECTED_BIT = BIT0;
 int UCONFIG_IS_WIFI_CONNECTED = 0;
 EventGroupHandle_t wifi_event_group;
+void (*uconfy_wifi_connected_callback)();
 
 esp_err_t event_handler(void *ctx, system_event_t *event) {
     switch(event->event_id) {
@@ -15,6 +16,9 @@ esp_err_t event_handler(void *ctx, system_event_t *event) {
 	    ESP_LOGI(TAG_UCONFIG, "Got IP Address, setting connected bit to TRUE");
 	    UCONFIG_IS_WIFI_CONNECTED = 1;
 	    xEventGroupSetBits(wifi_event_group, UCONFIG_CONNECTED_BIT);
+	    if (uconfy_wifi_connected_callback != NULL) {
+	        uconfy_wifi_connected_callback();
+	    }
 	    break;
 	case SYSTEM_EVENT_STA_DISCONNECTED:
 	    ESP_LOGI(TAG_UCONFIG, "WiFi disconnected, trying to reconnect after 5 seconds, and clearing connected bit");
@@ -30,7 +34,8 @@ esp_err_t event_handler(void *ctx, system_event_t *event) {
     return ESP_OK;
 }
 
-void uconfig_initialize_wifi(char *initial_wifi_ssid, char *initial_wifi_password) {
+void uconfy_initialize_wifi(char *initial_wifi_ssid, char *initial_wifi_password, void (*wifi_connected_callback)()) {
+    uconfy_wifi_connected_callback = wifi_connected_callback;
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());

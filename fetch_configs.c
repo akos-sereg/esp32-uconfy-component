@@ -3,7 +3,7 @@
 char response_payload[1024];
 const char *OK_RESPONSE = "HTTP/1.1 200 OK";
 
-void uconfy_fetch_configs() {
+void uconfy_fetch_configs(void (*configs_fetched_callback)()) {
     const struct addrinfo hints = {
         .ai_family = AF_INET,
         .ai_socktype = SOCK_STREAM,
@@ -98,6 +98,9 @@ void uconfy_fetch_configs() {
 
     if (strncmp(response_payload, OK_RESPONSE, strlen(OK_RESPONSE)) == 0) {
         uconfig_parse_http_response();
+        if (configs_fetched_callback != NULL) {
+            configs_fetched_callback();
+        }
         ESP_LOGI(TAG_UCONFIG, "Configs fetched from uconfy server");
     } else {
         ESP_LOGE(TAG_UCONFIG, "Configs could not be fetched from uconfy server, expected 200 OK response. Received full payload:");
