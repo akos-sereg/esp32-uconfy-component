@@ -4,6 +4,7 @@ int UCONFIG_CONNECTED_BIT = BIT0;
 int UCONFIG_IS_WIFI_CONNECTED = 0;
 EventGroupHandle_t wifi_event_group;
 void (*uconfy_wifi_connected_callback)();
+int uconfy_is_fallback_wifi = 0;
 
 esp_err_t event_handler(void *ctx, system_event_t *event) {
     switch(event->event_id) {
@@ -23,6 +24,14 @@ esp_err_t event_handler(void *ctx, system_event_t *event) {
 	case SYSTEM_EVENT_STA_DISCONNECTED:
 	    ESP_LOGI(TAG_UCONFIG, "WiFi disconnected, trying to reconnect after 5 seconds, and clearing connected bit");
 	    UCONFIG_IS_WIFI_CONNECTED = 0;
+
+	    if (!uconfy_is_fallback_wifi) {
+	        uconfy_is_fallback_wifi = 1;
+	        uconfy_configure_fallback_wifi();
+	    } else {
+	        uconfy_is_fallback_wifi = 0;
+	        uconfy_configure_primary_wifi();
+	    }
 	    vTaskDelay(5000 / portTICK_PERIOD_MS);
 	    esp_wifi_connect();
 	    xEventGroupClearBits(wifi_event_group, UCONFIG_CONNECTED_BIT);
@@ -63,4 +72,46 @@ void uconfy_initialize_wifi(char *initial_wifi_ssid, char *initial_wifi_password
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());
+}
+
+void uconfy_configure_primary_wifi() {
+    char *wifi = uconfig_get_string_param(UCONFY_PRIMARY_WIFI, "");
+    char *pwd = uconfig_get_string_param(UCONFY_PRIMARY_PWD, "");
+
+    if (strlen(wifi) != 0 && strlen(pwd) != 0) {
+        ESP_LOGI(TAG_UCONFIG, "Setting WiFi (primary) configuration SSID %s ...", wifi);
+        wifi_config_t wifi_config = { };
+
+        for (int i=0; i!=strlen(wifi); i++) {
+            wifi_config.sta.ssid[i] = wifi[i];
+        }
+        wifi_config.sta.ssid[strlen(wifi)] = '\0';
+
+        for (int i=0; i!=strlen(pwd); i++) {
+            wifi_config.sta.password[i] = pwd[i];
+        }
+        wifi_config.sta.password[strlen(pwd)] = '\0';
+        ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
+    }
+}
+
+void uconfy_configure_fallback_wifi() {
+    char *wifi = uconfig_get_string_param(UCONFY_FALLBACK_WIFI, "");
+    char *pwd = uconfig_get_string_param(UCONFY_FALLBACK_PWD, "");
+
+    if (strlen(wifi) != 0 && strlen(pwd) != 0) {
+        ESP_LOGI(TAG_UCONFIG, "Setting WiFi (fallback) configuration SSID %s ...", wifi);
+        wifi_config_t wifi_config = { };
+
+        for (int i=0; i!=strlen(wifi); i++) {
+            wifi_config.sta.ssid[i] = wifi[i];
+        }
+        wifi_config.sta.ssid[strlen(wifi)] = '\0';
+
+        for (int i=0; i!=strlen(pwd); i++) {
+            wifi_config.sta.password[i] = pwd[i];
+        }
+        wifi_config.sta.password[strlen(pwd)] = '\0';
+        ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
+    }
 }

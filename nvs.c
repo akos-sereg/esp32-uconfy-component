@@ -84,6 +84,7 @@ void uconfy_load_from_nvs() {
                 if (value != NULL) {
                     strcpy(uconfig_repo[uconfig_repo_len].key, info.key);
                     strcpy(uconfig_repo[uconfig_repo_len].value, value);
+                    ESP_LOGI(TAG_UCONFIG, "Loaded uconfy param: '%s' = '%s'", uconfig_repo[uconfig_repo_len].key, uconfig_repo[uconfig_repo_len].value);
                     uconfig_repo_len++;
                 }
                 free(value);

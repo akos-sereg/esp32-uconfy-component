@@ -8,6 +8,6 @@
 #define UCONFIG_TMP_LOG_MAX_SIZE    5000
 
 extern char *uconfig_tmp_log;
-extern void uconfig_append_log(char *message);
+extern void uconfy_log(char *message);
 
 #endif

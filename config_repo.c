@@ -68,7 +68,7 @@ void uconfig_register_config_item(char *line) {
 
 char *uconfig_get_string_param(char *key, char *fallback) {
     for (int i=0; i!=uconfig_repo_len; i++) {
-        if (strncmp(key, uconfig_repo[i].key, strlen(key)) == 0) {
+        if (strncmp(key, uconfig_repo[i].key, strlen(key)) == 0 && strlen(key) == strlen(uconfig_repo[i].key)) {
             return uconfig_repo[i].value;
         }
     }
@@ -78,7 +78,7 @@ char *uconfig_get_string_param(char *key, char *fallback) {
 int uconfig_get_int_param(char *key, int fallback) {
 
     for (int i=0; i!=uconfig_repo_len; i++) {
-        if (strncmp(key, uconfig_repo[i].key, strlen(key)) == 0) {
+        if (strncmp(key, uconfig_repo[i].key, strlen(key)) == 0 && strlen(key) == strlen(uconfig_repo[i].key)) {
             return atoi(uconfig_repo[i].value);
         }
     }
