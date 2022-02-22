@@ -1,4 +1,4 @@
-#include "include/nvs.h"
+#include "include/uconfy.h"
 
 #define UCONFIG_NVS_PARTITION   "storage"
 

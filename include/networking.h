@@ -19,7 +19,7 @@
 #include "lwip/netdb.h"
 #include "lwip/dns.h"
 
-#include "config_poll.h"
+// #include "config_poll.h"
 
 extern EventGroupHandle_t wifi_event_group;
 extern int UCONFIG_CONNECTED_BIT;

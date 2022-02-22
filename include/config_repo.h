@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "config_poll.h"
+#include "fetch_configs.h"
 #include "logging.h"
 #include "nvs.h"
 

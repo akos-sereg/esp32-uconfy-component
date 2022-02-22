@@ -1,4 +1,4 @@
-#include "include/logging.h"
+#include "include/uconfy.h"
 
 char *uconfig_tmp_log;
 

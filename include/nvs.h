@@ -9,7 +9,8 @@
 #include "nvs_flash.h"
 #include "nvs.h"
 
-#include "config_poll.h"
+// #include "config_poll.h"
+// #include "config_repo.h"
 
 #define NVS_VAL_IN_COMP 0
 #define NVS_VAL_IN_GUITAR 1
@@ -24,8 +25,6 @@ extern void init_nvs_store();
 extern void set_nvs_value(char *key, char *value);
 extern char *get_nvs_value(char *key);
 extern void nvs_shutdown();
-
-#include "config_repo.h"
 
 nvs_handle_t app_nvs_handle;
 esp_err_t nvs_error;

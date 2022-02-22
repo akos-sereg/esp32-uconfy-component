@@ -1,4 +1,4 @@
-#include "include/config_repo.h"
+#include "include/uconfy.h"
 
 struct uconfig_item *uconfig_repo;
 int uconfig_repo_len = 0;

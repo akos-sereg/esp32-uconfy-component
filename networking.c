@@ -1,4 +1,4 @@
-#include "include/networking.h"
+#include "include/uconfy.h"
 
 int UCONFIG_CONNECTED_BIT = BIT0;
 int UCONFIG_IS_WIFI_CONNECTED = 0;
