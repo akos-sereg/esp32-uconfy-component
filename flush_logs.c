@@ -65,10 +65,10 @@ void uconfy_flush_logs()
     strcat(content, "\"}");
     strcat(content, "\r\n\0");*/
 
-    sprintf(request, "POST /api/device/%s/logs?api_key=%s HTTP/1.0\r\n%sContent-Type: application/json\r\nContent-Length: %d\r\n\r\n{ \"Logs\": \"%s\" }\r\n",
+    sprintf(request, "POST /api/device/%s/logs HTTP/1.0\r\n%sAuthorization: apikey %s\r\nContent-Type: application/json\r\nContent-Length: %d\r\n\r\n{ \"Logs\": \"%s\" }\r\n",
         uconfig_device_id,
-        uconfig_api_key,
         REQUEST,
+        uconfig_api_key,
         strlen(base64_encoded) + 14,
         base64_encoded);
 

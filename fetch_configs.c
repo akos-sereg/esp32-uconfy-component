@@ -46,10 +46,10 @@ void uconfy_fetch_configs(void (*configs_fetched_callback)()) {
 
     char *request = malloc(sizeof(char) * (100 + strlen(REQUEST) + strlen(uconfig_device_id) + strlen(uconfig_api_key)));
 
-    sprintf(request, "GET /api/device/%s/config?api_key=%s HTTP/1.0\r\n%sContent-Type: text/plain\r\n\r\n",
+    sprintf(request, "GET /api/device/%s/config HTTP/1.0\r\n%sAuthorization: apikey %s\r\nContent-Type: text/plain\r\n\r\n",
         uconfig_device_id,
-        uconfig_api_key,
-        REQUEST);
+        REQUEST,
+        uconfig_api_key);
 
     printf("----------------------\n");
     printf(request);
@@ -92,6 +92,7 @@ void uconfy_fetch_configs(void (*configs_fetched_callback)()) {
             }
         }
     } while(r > 0);
+    response_payload[content_length] = '\0';
 
     ESP_LOGI(TAG_UCONFIG, "... done reading from socket. Last read return=%d errno=%d.", r, errno);
     close(s);
