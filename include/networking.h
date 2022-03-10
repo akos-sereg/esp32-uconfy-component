@@ -28,10 +28,15 @@
 extern EventGroupHandle_t wifi_event_group;
 extern int UCONFIG_CONNECTED_BIT;
 extern int uconfy_is_fallback_wifi;
+extern int ufonfy_allow_wifi_fallback;
 
 extern int UCONFIG_IS_WIFI_CONNECTED;
-extern void uconfy_initialize_wifi(char *initial_wifi_ssid, char *initial_wifi_password, void (*wifi_connected_callback)());
+extern void uconfy_initialize_wifi(
+    char *initial_wifi_ssid,
+    char *initial_wifi_password,
+    int allow_wifi_fallback,
+    void (*wifi_connected_callback)());
 extern void uconfy_configure_fallback_wifi();
-extern void uconfy_configure_primary_wifi();
+extern int uconfy_configure_primary_wifi();
 
 #endif

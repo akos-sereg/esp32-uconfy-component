@@ -66,7 +66,7 @@ void uconfig_register_config_item(char *line) {
     set_nvs_value(uconfig_repo[uconfig_repo_len].key, uconfig_repo[uconfig_repo_len].value);
 }
 
-char *uconfig_get_string_param(char *key, char *fallback) {
+char *uconfy_get_string_param(char *key, char *fallback) {
     for (int i=0; i!=uconfig_repo_len; i++) {
         if (strncmp(key, uconfig_repo[i].key, strlen(key)) == 0 && strlen(key) == strlen(uconfig_repo[i].key)) {
             return uconfig_repo[i].value;
@@ -75,7 +75,8 @@ char *uconfig_get_string_param(char *key, char *fallback) {
 
     return fallback;
 }
-int uconfig_get_int_param(char *key, int fallback) {
+
+int uconfy_get_int_param(char *key, int fallback) {
 
     for (int i=0; i!=uconfig_repo_len; i++) {
         if (strncmp(key, uconfig_repo[i].key, strlen(key)) == 0 && strlen(key) == strlen(uconfig_repo[i].key)) {
