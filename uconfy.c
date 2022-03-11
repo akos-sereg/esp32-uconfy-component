@@ -7,7 +7,6 @@ void uconfy_init(char *device_id, char *api_key) {
     uconfig_device_id = device_id;
     uconfig_api_key = api_key;
 
-    uconfig_tmp_log = malloc(sizeof(char) * UCONFIG_TMP_LOG_MAX_SIZE);
     uconfig_tmp_log[0] = '\0';
     // xTaskCreate(uconfig_poller, "config_poll", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
 }

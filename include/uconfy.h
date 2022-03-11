@@ -3,7 +3,7 @@
 
 #include "flush_logs.h"
 #include "fetch_configs.h"
-#include "networking.h"
+#include "uconfy_networking.h"
 #include "nvs.h"
 #include "config_repo.h"
 

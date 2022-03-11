@@ -64,7 +64,6 @@ void uconfy_fetch_configs(void (*configs_fetched_callback)()) {
         return;
     }
     ESP_LOGI(TAG_UCONFIG, "... socket send success");
-    memset(uconfig_tmp_log, 0, sizeof(char) * UCONFIG_TMP_LOG_MAX_SIZE);
     free(request);
 
     struct timeval receiving_timeout;

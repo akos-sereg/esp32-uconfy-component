@@ -1,7 +1,5 @@
 #include "include/uconfy.h"
 
-char *uconfig_tmp_log;
-
 void uconfy_log(char *message) {
     printf("[--> Remote Log <--] %s\n", message);
     if ((strlen(message) + strlen(uconfig_tmp_log) + 1) > UCONFIG_TMP_LOG_MAX_SIZE) {
@@ -9,6 +7,7 @@ void uconfy_log(char *message) {
         return;
     }
 
-    strcat(uconfig_tmp_log, message);
-    strcat(uconfig_tmp_log, "\n");
+    sprintf(uconfig_tmp_log, "%s\n", message);
+
+    uconfy_flush_logs();
 }

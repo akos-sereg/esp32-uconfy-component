@@ -15,7 +15,7 @@
 #include "lwip/netdb.h"
 #include "lwip/dns.h"
 
-#include "networking.h"
+#include "uconfy_networking.h"
 #include "nvs.h"
 
 extern char response_payload[1024];

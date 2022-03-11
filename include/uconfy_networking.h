@@ -1,5 +1,5 @@
-#ifndef __networking_h_included__
-#define __networking_h_included__
+#ifndef __uconfy_networking_h_included__
+#define __uconfy_networking_h_included__
 
 #include <string.h>
 #include "freertos/FreeRTOS.h"
