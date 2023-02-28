@@ -4,5 +4,6 @@
 #include "base64.h"
 
 extern void uconfy_flush_logs();
+extern void thingspeak_report_motion(int motion_count);
 
 #endif
