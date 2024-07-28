@@ -3,6 +3,7 @@
 
 #include "flush_logs.h"
 #include "fetch_configs.h"
+#include "fetch_commands.h"
 #include "uconfy_networking.h"
 #include "nvs.h"
 #include "config_repo.h"
@@ -18,7 +19,7 @@
 extern char *uconfig_device_id;
 extern char *uconfig_api_key;
 
-extern void uconfy_init(char *device_id, char *api_key);
+extern void uconfy_init(char *device_id, char *api_key, int start_command_polling);
 
 // to be internal
 // extern void uconfig_poller(void * pvParameters);
