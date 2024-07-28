@@ -29,6 +29,7 @@ extern int uconfig_command_repo_len;
 
 extern char *uconfy_get_string_param(char *key, char *fallback);
 extern int uconfy_get_int_param(char *key, int fallback);
+extern float uconfy_get_float_param(char *key, float fallback);
 
 extern void uconfig_parse_http_response();
 extern void uconfig_parse_http_response_for_commands();

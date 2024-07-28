@@ -5,6 +5,11 @@ const char *NO_CONTENT_RESPONSE = "HTTP/1.1 204 No Content";
 
 void uconfy_flush_logs()
 {
+    if (!UCONFIG_IS_WIFI_CONNECTED) {
+        printf("No wifi connection, ignore uconfy request\n");
+        return;
+    }
+
     if (strlen(uconfig_tmp_log) == 0) {
         ESP_LOGI(TAG_UCONFIG, "No logs to flush");
         return;
@@ -23,7 +28,6 @@ void uconfy_flush_logs()
 
     if(err != 0 || res == NULL) {
         ESP_LOGE(TAG_UCONFIG, "DNS lookup failed err=%d res=%p", err, res);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
         return;
     }
 
@@ -36,7 +40,6 @@ void uconfy_flush_logs()
     if(s < 0) {
         ESP_LOGE(TAG_UCONFIG, "... Failed to allocate socket.");
         freeaddrinfo(res);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
         return;
     }
     ESP_LOGI(TAG_UCONFIG, "... allocated socket");
@@ -45,7 +48,6 @@ void uconfy_flush_logs()
         ESP_LOGE(TAG_UCONFIG, "... socket connect failed errno=%d", errno);
         close(s);
         freeaddrinfo(res);
-        vTaskDelay(4000 / portTICK_PERIOD_MS);
         return;
     }
 
@@ -53,7 +55,7 @@ void uconfy_flush_logs()
     freeaddrinfo(res);
 
     size_t out_len;
-    printf("[base64 encoding] message: '%s'\n", uconfig_tmp_log);
+    // printf("[base64 encoding] message: '%s'\n", uconfig_tmp_log);
     char *base64_encoded = base64_encode(uconfig_tmp_log, strlen(uconfig_tmp_log), &out_len);
     if (base64_encoded == NULL) {
         ESP_LOGE(TAG_UCONFIG, "Unable to base64 encode payload, memory is full; left space from heap: %d bytes, log site: %d bytes", xPortGetFreeHeapSize(), strlen(uconfig_tmp_log));
@@ -72,16 +74,15 @@ void uconfy_flush_logs()
         strlen(base64_encoded) + 14,
         base64_encoded);
 
-    printf("----------------------\n");
+    /*printf("----------------------\n");
     printf(request);
     printf("\n");
-    printf("----------------------\n");
+    printf("----------------------\n");*/
 
     if (write(s, request, strlen(request)) < 0) {
         ESP_LOGE(TAG_UCONFIG, "... socket send failed");
         close(s);
         free(base64_encoded);
-        vTaskDelay(4000 / portTICK_PERIOD_MS);
         return;
     }
     ESP_LOGI(TAG_UCONFIG, "... socket send success");
@@ -95,7 +96,6 @@ void uconfy_flush_logs()
             sizeof(receiving_timeout)) < 0) {
         ESP_LOGE(TAG_UCONFIG, "... failed to set socket receiving timeout");
         close(s);
-        vTaskDelay(4000 / portTICK_PERIOD_MS);
         return;
     }
     ESP_LOGI(TAG_UCONFIG, "... set socket receiving timeout success");

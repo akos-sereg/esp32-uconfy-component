@@ -165,3 +165,14 @@ int uconfy_get_int_param(char *key, int fallback) {
 
     return fallback;
 }
+
+float uconfy_get_float_param(char *key, float fallback) {
+
+    for (int i=0; i!=uconfig_repo_len; i++) {
+        if (strncmp(key, uconfig_repo[i].key, strlen(key)) == 0 && strlen(key) == strlen(uconfig_repo[i].key)) {
+            return atof(uconfig_repo[i].value);
+        }
+    }
+
+    return fallback;
+}
