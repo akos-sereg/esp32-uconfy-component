@@ -18,6 +18,6 @@
 #include "nvs.h"
 
 extern char response_payload_commands[2048];
-extern void uconfy_fetch_commands(void (*commands_fetched_callback)());
+extern void uconfy_fetch_commands();
 
 #endif

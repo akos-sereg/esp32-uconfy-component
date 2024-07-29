@@ -3,7 +3,7 @@
 char response_payload_commands[2048];
 const char *OK_RESPONSE_COMMANDS = "HTTP/1.1 200 OK";
 
-void uconfy_fetch_commands(void (*commands_fetched_callback)()) {
+void uconfy_fetch_commands() {
     const struct addrinfo hints = {
         .ai_family = AF_INET,
         .ai_socktype = SOCK_STREAM,

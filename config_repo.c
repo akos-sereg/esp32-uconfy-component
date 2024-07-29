@@ -50,7 +50,7 @@ void uconfig_parse_http_response_for_commands() {
     int char_index = 0;
     int header_over = 0;
     uconfig_command_repo_len = 0;
-     if (uconfig_command_repo == NULL) {
+    if (uconfig_command_repo == NULL) {
         uconfig_command_repo = malloc(sizeof(struct uconfig_command_item) * UCONFIG_REPO_MAXITEMS);
     }
     for (int i=0; i!=strlen(response_payload_commands); i++) {
@@ -115,16 +115,12 @@ void uconfig_register_command_item(char *line) {
     int char_index = 0;
 
     for (int i=0; i!=strlen(line); i++) {
-        printf("-> processing char %c\n", line[i]);
         if (id_pos == -1) {
-            printf("-> ID pos not found yet\n");
             if (line[i] == ',') {
                 id_pos = i;
             }
         } else {
-            printf("-> ID pos found already\n");
             if (separator_pos == -1) {
-                printf("-> separator pos not found yet (%d)\n", uconfig_command_repo_len);
                 if (line[i] == ',') {
                     separator_pos = i;
                     uconfig_command_repo[uconfig_command_repo_len].command[char_index] = '\0';
@@ -134,15 +130,14 @@ void uconfig_register_command_item(char *line) {
                     char_index++;
                 }
             } else {
-                printf("-> separator pos found already\n");
-                uconfig_command_repo[uconfig_repo_len].parameter[char_index] = line[i];
+                uconfig_command_repo[uconfig_command_repo_len].parameter[char_index] = line[i];
                 char_index++;
             }
         }
     }
 
     uconfig_command_repo[uconfig_command_repo_len].parameter[char_index] = '\0';
-    ESP_LOGI(TAG_UCONFIG, "command=[%s], parameter=[%s]", uconfig_command_repo[uconfig_command_repo_len].command, uconfig_command_repo[uconfig_command_repo_len].parameter);
+    ESP_LOGI(TAG_UCONFIG, "repo[%d] { command=[%s], parameter=[%s] }", uconfig_command_repo_len, uconfig_command_repo[uconfig_command_repo_len].command, uconfig_command_repo[uconfig_command_repo_len].parameter);
 }
 
 char *uconfy_get_string_param(char *key, char *fallback) {

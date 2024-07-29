@@ -2,18 +2,20 @@
 
 char *uconfig_device_id;
 char *uconfig_api_key;
+void (*commands_fetched_callback)() = NULL;
 
-void commands_fetched() {
-}
-
-void uconfig_poller( void * pvParameters )
+void uconfig_poller(void *pvParameters)
 {
   int uconfig_poll_interval_seconds = 30;
   for( ;; )
   {
     if (UCONFIG_IS_WIFI_CONNECTED) {
-        printf("Poll commands ...\n");
-        uconfy_fetch_commands(&commands_fetched);
+        if (commands_fetched_callback != NULL) {
+            printf("Poll commands ...\n");
+            uconfy_fetch_commands();
+        } else {
+            printf("Avoid polling commands, there is no callback defined ...\n");
+        }
     }
 
     vTaskDelay((uconfig_poll_interval_seconds * 1000) / portTICK_RATE_MS);
@@ -21,9 +23,10 @@ void uconfig_poller( void * pvParameters )
 }
 
 
-void uconfy_init(char *device_id, char *api_key, int start_command_polling) {
+void uconfy_init(char *device_id, char *api_key, int start_command_polling, void (*commands_fetched)()) {
     uconfig_device_id = device_id;
     uconfig_api_key = api_key;
+    commands_fetched_callback = *commands_fetched;
 
     uconfig_tmp_log[0] = '\0';
     if (start_command_polling) {
