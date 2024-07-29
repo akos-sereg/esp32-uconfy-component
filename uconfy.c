@@ -23,13 +23,13 @@ void uconfig_poller(void *pvParameters)
 }
 
 
-void uconfy_init(char *device_id, char *api_key, int start_command_polling, void (*commands_fetched)()) {
+void uconfy_init(char *device_id, char *api_key, void (*commands_fetched)()) {
     uconfig_device_id = device_id;
     uconfig_api_key = api_key;
     commands_fetched_callback = *commands_fetched;
 
     uconfig_tmp_log[0] = '\0';
-    if (start_command_polling) {
+    if (commands_fetched != NULL) {
         xTaskCreate(uconfig_poller, "config_poll", 4096, NULL, 1, NULL);
     }
 }

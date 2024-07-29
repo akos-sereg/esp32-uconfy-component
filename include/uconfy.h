@@ -19,7 +19,7 @@
 extern char *uconfig_device_id;
 extern char *uconfig_api_key;
 extern void (*commands_fetched_callback)();
-extern void uconfy_init(char *device_id, char *api_key, int start_command_polling, void (*commands_fetched)());
+extern void uconfy_init(char *device_id, char *api_key, void (*commands_fetched)());
 
 // to be internal
 // extern void uconfig_poller(void * pvParameters);
