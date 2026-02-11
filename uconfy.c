@@ -4,9 +4,10 @@ char *uconfig_device_id;
 char *uconfig_api_key;
 void (*commands_fetched_callback)() = NULL;
 
+int uconfig_poll_interval_seconds = 10;
+
 void uconfig_poller(void *pvParameters)
 {
-  int uconfig_poll_interval_seconds = 30;
   for( ;; )
   {
     if (UCONFIG_IS_WIFI_CONNECTED) {
